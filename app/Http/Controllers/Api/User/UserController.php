@@ -83,6 +83,8 @@ class UserController extends Controller
 
     }
     public function register(Request $request){
+        $user=Auth::user();
+        if($user->role !='employee'){
         try{
             $rules = [
                 "name" => "required",
@@ -119,6 +121,10 @@ class UserController extends Controller
         catch(\Exception $ex) {
         return $this->returnError($ex->getCode(),$ex->getMessage());
                 }
+            }
+            else {
+                return $this->returnError('','You are not an admin or teamleader');
+               }
 
     }
     public function gettasks(){
